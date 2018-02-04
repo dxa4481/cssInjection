@@ -20,7 +20,7 @@ This allows us to match CSS selectors to the form in question, and based on whet
 
 Using this method, they can walk down the string, and exfiltrate the entire secret value.
 
-To pull this off, the web server needs to be allow or be vulnerable to arbitrary CSS being rendered. This can occur through CSS injection, or a feature on the website allowing you to include stylesheets. Note: the website does not need to be vulnerable to XSS.
+To pull this off, the victim server needs to allow or be vulnerable to arbitrary CSS being rendered. This can occur through CSS injection, or a feature on the website allowing you to include stylesheets. Note: the website does not need to be vulnerable to XSS.
 
 To render the victim's CSS, the original paper proposes using iFrames. The limitations of this are of course if the victim website disallows being framed.
 
