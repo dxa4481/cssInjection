@@ -1,0 +1,11 @@
+<html>
+    <form action="https://security.love" id="sensitiveForm">
+        <input type="hidden" id="secret" name="secret" value="dJ7cwON4BMyQi3Nrq26i">
+    </form>
+    <script src="mockingTheBackend.js"></script>
+    <script>
+        var fragment = decodeURIComponent(window.location.href.split("?injection=")[1]);
+        var htmlEncode = fragment.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+        document.write("<style>" + htmlEncode + "</style>");
+    </script>
+</html>
