@@ -48,7 +48,7 @@ With this addition, we can make our attack 100% client side, and force users to 
 ## Demo
 As explained above, becuase I don't want to run a web server (github pages is great) I'm cheating and using service workers to intercept and mock the server side component. As a result, for now, this demo only works in Chrome.
 
-First I've created a very simple victim, that has a DOM based CSS injection, and placed a sensitive token on the page. I've made this DOM based to again, remove the need for a server.
+First I've created a very simple victim, that has a DOM based CSS injection, and placed a sensitive token on the page. I've made this DOM based to again, remove the need for a server. You may notice I've also included some protection against script tag injection, by encoding less than and greater than signs.
 
 ```
     <form action="https://security.love" id="sensitiveForm">
