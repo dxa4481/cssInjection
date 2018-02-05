@@ -1,6 +1,6 @@
 # Stealing CSRF tokens with CSS injection (without iFrames)
 
-A post [here](https://www.curesec.com/blog/article/blog/Reading-Data-via-CSS-Injection-180.html) details a method for stealing sensitive data with CSS injection by using Attribute Selectors and iFrames. I'll detail here a way to do this without iFrames, effectively stealing a CSRF token in about 10 seconds.
+A post [here](https://www.curesec.com/blog/article/blog/Reading-Data-via-CSS-Injection-180.html) details a method for stealing sensitive data with CSS injection by using Attribute Selectors and iFrames. Because this method requires iFrames, and most major websites disallow being framed, this attack isn't always practical. Here I'll detail here a way to do this without iFrames, effectively stealing a CSRF token in about 10 seconds.
 
 Once the CSRF token is stolen, because the victim is already on an attacker website, the attacker can go ahead and complete a CSRF attack against the user.
 
