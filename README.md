@@ -14,17 +14,19 @@ As the original post describes, [CSS attribute selectors](https://developer.mozi
 + Match if the string ends with the substring
 + Match if the string contains the substring anywhere
 
-One practical use case for this is to color all href's that start with "https://example.com".
+One practical use case for this is to color all `href` attributes that start with "https://example.com" a special color.
 
-An unfortunate by-product of this is, sensitive information can sometimes be stored in html attribute values. Most often, CSRF tokens are stored this way, in hidden fields on forms.
+An unfortunate by-product of this is, sensitive information can sometimes be stored in html attribute values. Most often, CSRF tokens are stored this way: in value attributes on hidden forms.
 
-This allows us to match CSS selectors to the form in question, and based on whether the form matches the starting string, load an extrenal resource such as a background image, which signals to the attacker the first charecter.
+This allows us to match CSS selectors to the attributes on the form in question, and based on whether the form matches the starting string, load an extrenal resource such as a background image, which signals to the attacker the first charecter.
 
 Using this method, they can walk down the string, and exfiltrate the entire secret value.
 
 To pull this off, the victim server needs to allow or be vulnerable to arbitrary CSS being rendered. This can occur through CSS injection, or a feature on the website allowing you to include stylesheets. Note: the website does not need to be vulnerable to XSS.
 
 To render the victim's CSS, the original paper proposes using iFrames. The limitations of this are of course if the victim website disallows being framed.
+
+There is also a space/time tradeoff of either loading all possible charecters at once in paralell, or multiplexing them one at a time. In my example to save time, I've elected to load them all at once. In some senarios where the injection is small, multiplexing may prove to be the more viable option.
 
 ## Without iFrames
 To do this without iFrames, I've used a method similiar to one I've discussed [before](https://github.com/dxa4481/windowHijacking): I'll create a popup and then alter the location of the popup after a set timer.
@@ -33,9 +35,9 @@ Using this method, I can still load the victim's CSS, but I no longer depend on 
 
 To force a hard reload, I have the pop-up load a dummy window between CSS injections. This can be seen below
 
-```
+```javascript
 var win2 = window.open('https://security.love/anything', 'f', "top=100000,left=100000,menubar=1,resizable=1,width=1,height=1")
-var win2 = window.open(`https://security.love/victim.html?injection=${css}`, 'f', "top=100000,left=100000,menubar=1,resizable=1,width=1,height=1")
+var win2 = window.open(`https://security.love/cssInjection/victim.html?injection=${css}`, 'f', "top=100000,left=100000,menubar=1,resizable=1,width=1,height=1")
  ```
 
 ## Without a backend server
@@ -52,7 +54,7 @@ As explained above, becuase I don't want to run a web server (github pages is gr
 
 First I've created a very simple victim, that has a DOM based CSS injection, and placed a sensitive token on the page. I've made this DOM based to again, remove the need for a server. You may notice I've also included some protection against script tag injection, by encoding less than and greater than signs.
 
-```
+```html
     <form action="https://security.love" id="sensitiveForm">
         <input type="hidden" id="secret" name="secret" value="dJ7cwON4BMyQi3Nrq26i">
     </form>
@@ -66,9 +68,10 @@ First I've created a very simple victim, that has a DOM based CSS injection, and
 
 Next, our attacker forces a load of the victim's CSS, and using the method described above, we steal the sensitive token one charecter at a time.
 
-On the recieving end, I've defined a service worker that intercepts the requests, and sends them back to the domain via post-message, and then we store the token in local storage for future use.
+On the recieving end, I've defined a service worker that intercepts the requests, and sends them back to the domain via post-message, and then we store the token in local storage for future use. You can imagine a back end web server filling this function, and posting back the CSRF token to the attacker domain via web socket or polling.
 
 ONLY TESTED IN CHROME RIGHT NOW:
+
 [demo](https://security.love/cssInjection/attacker.html)
 
 If everything works, after clicking somewhere on the page, you should see the CSRF token exfiltrated one charecter at a time from the victim page.
