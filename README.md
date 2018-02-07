@@ -41,7 +41,7 @@ var win2 = window.open(`https://security.love/cssInjection/victim.html?injection
  ```
 
 ## Without a backend server
-The original paper describes exfiltrating data to a backend server, however becuase the CSRF is a client side attack, if we can come up with a way to do this without a server, we save a lot of overhead and complexity.
+The original paper describes exfiltrating data to a backend server, however because the CSRF is a client side attack, if we can come up with a way to do this without a server, we save a lot of overhead and complexity.
 
 In order to recieve the victim's resource loads client side, we can make use of Service Workers, which can intercept and read request data. Service Workers currently only apply to requests coming in from the Same Origin, and so for my demo I've cheated and put both the victim and attacker pages on the same origin.
 
